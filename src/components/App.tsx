@@ -68,7 +68,7 @@ function App() {
     },[character1,character2])
 
     return (
-        <div className="flex flex-col bg-rick&morty min-h-screen  bg-blend-saturation bg-slate-700 bg-opacity-90 p-10">
+        <div className="flex flex-col bg-rick&morty min-h-screen  bg-blend-saturation bg-slate-700 bg-opacity-90 md:p-10">
             <div className="flex flex-row h-[500px]">
                 <CharacterSelection
                     selectCharacter={setCharacter1}

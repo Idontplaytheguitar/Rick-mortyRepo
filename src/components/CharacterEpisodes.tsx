@@ -10,7 +10,7 @@ const CharacterEpisodes: React.FC<CharacterEpisodesProps> = ({
     title,
 }) => {
     return (
-        <div className="bg-blue-300 bg-opacity-10 rounded-lg p-4 m-2 w-1/3">
+        <div className="bg-blue-300 bg-opacity-10 rounded-lg p-2 md:p-4 m-2 w-1/3">
             <h2 className="text-center text-2xl mb-2">{title}</h2>
             {episodes.length === 0 ? (
                 <p className="text-center">No episodes found</p>

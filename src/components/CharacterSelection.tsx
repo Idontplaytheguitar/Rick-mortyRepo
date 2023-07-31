@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Character } from "../interfaces/Character";
 import Card from "./Card";
 import { rickAndMorty } from "../utils/Rick&Morty";
+import FiltersComponent from "./FiltersComponent";
 
 interface CharacterSelectionProps {
     selectCharacter: (character: Character | null) => void; // updated this line
@@ -16,12 +17,14 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
     const [selectedCharacter, setSelectedCharacter] =
         useState<Character | null>(null);
     const [page, setPage] = useState(1);
+    const [filters, setFilters] = useState();
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] = useState(false);
     const observer = useRef<IntersectionObserver>();
 
     const rickAndMortyService = new rickAndMorty();
 
+    
     const lastCharacterElementRef = useCallback(
         (node: HTMLDivElement | null) => {
             if (loading) return;
@@ -33,22 +36,28 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
             });
             if (node) observer.current.observe(node);
         },
-        [loading, hasMore]
+        [loading, filters, hasMore]
     );
     useEffect(() => {
         setLoading(true);
+        setCharacters([]); // Reset the characters when the filters change
+        setPage(1); // Go back to the first page when the filters change
+    }, [filters]);
+
+    useEffect(() => {
+        setLoading(true);
         (async () => {
-            const data = await rickAndMortyService.getCharacter(page);
+            const data = await rickAndMortyService.getCharacter(page, filters);
             if (data) {
                 setCharacters((prevCharacters) => [
                     ...prevCharacters,
                     ...data.results,
                 ]);
-                setHasMore(data.info.pages >= page + 1); 
+                setHasMore(data.info.pages >= page + 1);
             }
             setLoading(false);
         })();
-    }, [page]);
+    }, [page, filters]);
     
 
     const handleCharacterSelect = (character: Character) => {
@@ -64,14 +73,17 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
     return (
         <div className="h-half overflow-auto overflow-x-visible p-10">
             <h3 className="text-center text-3xl mb-4 sticky top-0 z-40 bg-green-600 bg-opacity-70 w-1/2 mx-auto rounded-2xl">{title}</h3>
-            <div className="grid grid-cols-2 gap-4">
+
+            <FiltersComponent changeFilters={setFilters}/>
+
+            <div className="grid grid-cols-2 gap-4 ">
                 {characters.map((character, index) => {
                     if (characters.length === index + 1) {
                         return (
                             <Card
                                 selected={selectedCharacter === character}
                                 character={character}
-                                key={character.id}
+                                key={index}
                                 classname={`${
                                     selectedCharacter && character === selectedCharacter
                                         ? "bg-green-400 bg-opacity-50"
@@ -86,7 +98,7 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
                             <Card
                                 selected={selectedCharacter === character}
                                 character={character}
-                                key={character.id}
+                                key={index}
                                 classname={`${
                                     selectedCharacter && character === selectedCharacter
                                         ? "bg-green-400"

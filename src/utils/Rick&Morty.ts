@@ -10,18 +10,19 @@ export class rickAndMorty {
 
     async getCharacter(
         page?: number,
-        filters?: unknown
+        filters?: { name?: string; status?: string }
     ): Promise<responseStructure> {
         try {
-            const response = await fetch(
-                `${this.url}character/${
-                    page || filters ? "?" : ""
-                }${this.pageQueryLogic(page)}`
-            );
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            let url = `${this.url}character/`;
+            const queryParams = [];
+            if (page) queryParams.push(`page=${page}`);
+            if (filters) {
+                if (filters.status)
+                    queryParams.push(`status=${filters.status}`);
             }
+            if (queryParams.length > 0) url += `?${queryParams.join("&")}`;
+
+            const response = await fetch(url);
 
             const data = await response.json();
             return data as responseStructure;
