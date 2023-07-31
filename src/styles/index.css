@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "GetSchwifty";
+    src: url("./get_schwifty.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.h-half::-webkit-scrollbar {
+    width: 12px;
+}
+
+.h-half::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.h-half::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.h-half::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
