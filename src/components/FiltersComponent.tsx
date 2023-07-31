@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 interface SortAndFilterProps {
-    changeFilters: (filters: { name?: string; status?: string }) => void;
+    changeFilters: (filters: { status?: string }) => void;
 }
 
 const FiltersComponent: React.FC<SortAndFilterProps> = ({ changeFilters }) => {

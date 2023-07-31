@@ -17,7 +17,7 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
     const [selectedCharacter, setSelectedCharacter] =
         useState<Character | null>(null);
     const [page, setPage] = useState(1);
-    const [filters, setFilters] = useState();
+    const [filters, setFilters] = useState<{status?:string}>();
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] = useState(false);
     const observer = useRef<IntersectionObserver>();
