@@ -17,14 +17,13 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
     const [selectedCharacter, setSelectedCharacter] =
         useState<Character | null>(null);
     const [page, setPage] = useState(1);
-    const [filters, setFilters] = useState<{status?:string}>();
+    const [filters, setFilters] = useState<{ status?: string }>();
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] = useState(false);
     const observer = useRef<IntersectionObserver>();
 
     const rickAndMortyService = new rickAndMorty();
 
-    
     const lastCharacterElementRef = useCallback(
         (node: HTMLDivElement | null) => {
             if (loading) return;
@@ -58,7 +57,6 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
             setLoading(false);
         })();
     }, [page, filters]);
-    
 
     const handleCharacterSelect = (character: Character) => {
         if (selectedCharacter && selectedCharacter.id === character.id) {
@@ -72,43 +70,73 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
 
     return (
         <div className="h-half overflow-auto overflow-x-visible p-10">
-            <h3 className="text-center text-3xl mb-4 sticky top-0 z-40 bg-green-600 bg-opacity-70 w-1/2 mx-auto rounded-2xl">{title}</h3>
+            <h3 className="text-center text-3xl mb-4 sticky top-0 z-40 bg-green-600 bg-opacity-70 w-1/2 mx-auto rounded-2xl">
+                {title}
+            </h3>
 
-            <FiltersComponent changeFilters={setFilters}/>
+            <FiltersComponent changeFilters={setFilters} />
 
             <div className="grid grid-cols-2 gap-4 ">
-                {characters.map((character, index) => {
-                    if (characters.length === index + 1) {
-                        return (
-                            <Card
-                                selected={selectedCharacter === character}
-                                character={character}
-                                key={index}
-                                classname={`${
-                                    selectedCharacter && character === selectedCharacter
-                                        ? "bg-green-400 bg-opacity-50"
-                                        : "bg-blue-400"
-                                }`}
-                                onClick={() => handleCharacterSelect(character)}
-                                ref={lastCharacterElementRef}
-                            />
-                        );
-                    } else {
-                        return (
-                            <Card
-                                selected={selectedCharacter === character}
-                                character={character}
-                                key={index}
-                                classname={`${
-                                    selectedCharacter && character === selectedCharacter
-                                        ? "bg-green-400"
-                                        : "bg-blue-400"
-                                }`}
-                                onClick={() => handleCharacterSelect(character)}
-                            />
-                        );
-                    }
-                })}
+                {loading
+                    ? Array.from({ length: 10 }).map((_, index) => (
+                          <Card
+                            
+                              character={{
+                                  episode: [],
+                                  gender: "     ",
+                                  id: 243,
+                                  location: { name: "" },
+                                  name: "",
+                                  origin: { name: "" },
+                                  species: "   ",
+                                  status: "unknown",
+                                  type: "",
+                                  image: "https://placehold.co/600x400",
+                              }}
+                              key={index}
+                              classname={` `}
+                              onClick={() => {}}
+                              selected={false}
+                          />
+                      ))
+                    : characters.map((character, index) => {
+                          if (characters.length === index + 1) {
+                              return (
+                                  <Card
+                                      selected={selectedCharacter === character}
+                                      character={character}
+                                      key={index}
+                                      classname={`${
+                                          selectedCharacter &&
+                                          character === selectedCharacter
+                                              ? "bg-green-400 bg-opacity-50"
+                                              : "bg-blue-400"
+                                      }`}
+                                      onClick={() =>
+                                          handleCharacterSelect(character)
+                                      }
+                                      ref={lastCharacterElementRef}
+                                  />
+                              );
+                          } else {
+                              return (
+                                  <Card
+                                      selected={selectedCharacter === character}
+                                      character={character}
+                                      key={index}
+                                      classname={`${
+                                          selectedCharacter &&
+                                          character === selectedCharacter
+                                              ? "bg-green-400"
+                                              : "bg-blue-400"
+                                      }`}
+                                      onClick={() =>
+                                          handleCharacterSelect(character)
+                                      }
+                                  />
+                              );
+                          }
+                      })}
             </div>
         </div>
     );
