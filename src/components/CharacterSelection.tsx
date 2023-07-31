@@ -91,7 +91,7 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
                                   species: "   ",
                                   status: "unknown",
                                   type: "",
-                                  image: "https://placehold.co/600x400",
+                                  image: "/R&Mplaceholder.png",
                               }}
                               key={index}
                               classname={` `}
