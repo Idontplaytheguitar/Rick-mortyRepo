@@ -4,9 +4,6 @@ import { Episode } from "../interfaces/Episode";
 export class rickAndMorty {
     url = "https://rickandmortyapi.com/api/";
 
-    private pageQueryLogic(page?: number) {
-        return `${page ? `page=${page}` : ""}`;
-    }
 
     async getCharacter(
         page?: number,
